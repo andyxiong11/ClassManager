@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h3>123</h3>
+  <div class="container">
   </div>
 </template>
 
@@ -11,5 +10,10 @@ export default {
 </script>
 
 <style>
-
+  .container {
+    width: 100%;
+    height: 100%;
+    background: url("../assets/bg.png");
+    background-size: cover;
+  }
 </style>
