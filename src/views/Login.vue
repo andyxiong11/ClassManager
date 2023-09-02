@@ -36,8 +36,8 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item>
-          <el-button @click="login('loginForm')">登 录</el-button>
-          <el-button @click="resetLoginForm('loginForm')">取 消</el-button>
+          <el-button class="btn" @click="login('loginForm')">登 录</el-button>
+          <el-button class="btn" @click="resetLoginForm('loginForm')">取 消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -171,8 +171,22 @@ export default {
   }
   /* 登录表单 */
   .login-form {
-    top: 50%;
-    transform: translate(-50%,-50%);
+    /* top: 50%;
+    transform: translate(-50%,-50%); */
+    width: 246px;
+    bottom: 52px;
+  }
+  /* 按钮 */
+  .btn{
+    width: 111px;
+    height: 37px;
+    background-color: #f4c41e;
+  }
+  .btn:first-child{
+    float: left;
+  }
+  .btn:last-child{
+    float: right;
   }
   p {
     top: 61px;
