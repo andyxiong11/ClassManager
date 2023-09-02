@@ -10,6 +10,8 @@ npm install
 npm run serve
 ```
 - 需要安装vue-router3 npm install --save vue-router@3
+- 需要安装babel-plugin-component npm install babel-plugin-component -D
+  - 配置babel.config.js
 - 需要安装element ui   npm i element-ui -S
 ### Compiles and minifies for production
 ```
