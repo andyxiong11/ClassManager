@@ -13,6 +13,7 @@ npm run serve
 - 需要安装babel-plugin-component npm install babel-plugin-component -D
   - 配置babel.config.js
 - 需要安装element ui   npm i element-ui -S
+- 需要安装echarts npm install echarts --save
 ### Compiles and minifies for production
 ```
 npm run build
