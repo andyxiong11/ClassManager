@@ -203,7 +203,7 @@
               <span>学校开课次数排行（本学期）</span>
             </div>
             <div class="right-left-main">
-              <vue-scroll>
+              <vue-scroll :ops="ops">
                 <div v-for="(item,index) in schoolList" :key="index">
                   <div :class="itemClass[index]" style="height: 50px;line-height: 50px;text-align: center;display:flex;">
                     <img 
@@ -239,7 +239,7 @@
               <span>老师开课次数排行（本学期）</span>
             </div>
             <div class="right-left-main">
-              <vue-scroll>
+              <vue-scroll :ops="ops">
                 <div v-for="(item,index) in teacherList" :key="index">
                   <div style="display:flex;height: 50px;line-height: 50px;">
                     <p style="width: 100px;text-align: center;">{{ index+1 }}</p>
@@ -257,8 +257,13 @@
 </template>
 
 <script>
+// 引入 vueScroll
+import vuescroll from "vuescroll/dist/vuescroll-native";
 export default {
   name:'Index',
+  components: {
+    vuescroll,
+  },
   data() {
     return {
       dateRangeValue:"",
@@ -398,6 +403,12 @@ export default {
         { name: "李丹-沈阳市第一二零中学", count: 52 },
       ],
       itemClass:["item0","item1","item2"],
+      ops: {
+        bar: {
+          background: "#0C4787",
+          size: "8px",
+        },
+      },
     }
   },
   methods: {
