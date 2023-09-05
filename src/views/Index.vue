@@ -209,22 +209,22 @@
                     <img 
                       src="../assets/no1.png" 
                       alt="" 
-                      style="padding: 0 30px;"
+                      style="padding: 0 10px;"
                       v-if="index === 0" 
                     />
                     <img
                       src="../assets/no2.png"
                       alt=""
-                      style="padding: 0 30px;"
+                      style="padding: 0 10px;"
                       v-else-if="index === 1"
                     />
                     <img
                       src="../assets/no3.png"
                       alt=""
-                      style="padding: 0 30px;"
+                      style="padding: 0 10px;"
                       v-else-if="index === 2"
                     />
-                    <p style="padding: 0 30px;" v-else>{{ index+1 }}</p>
+                    <p style="width: 70px;text-align: center;" v-else>{{ index+1 }}</p>
                     <p style="width: 268px">{{ item.name }}</p>
                     <p>{{ item.count }}</p>
                   </div>
