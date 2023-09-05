@@ -112,18 +112,85 @@
           <div class="left-top">
             <div class="left-top-title">
               <img src="../assets/1.png" alt="" />
-              <span>学校开课次数统计</span>
+              <span style="margin-left: 33px">学校开课次数统计</span>
               <span>学期</span>
+              <!-- 日期选择器组件
+                   type 显示类型
+                   range-separator 页面上开始日期与结束日期的分隔符
+                   start-placeholder 范围选择时开始日期的占位内容
+                   end-placeholder 范围选择时结束日期的占位内容
+                   size 输入框尺寸
+              -->
+              <el-date-picker
+                v-model="dateRangeValue"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                size="small"
+                style="width: 200px;border-radius: 0;"
+                class="date-picker"
+              >
+              </el-date-picker>
               <span>月份</span>
+              <!--  月份选择器组件
+                   type 显示类型
+                   placeholder	非范围选择时的占位内容
+                   size 输入框尺寸
+              -->
+              <el-date-picker
+                v-model="monthValue"
+                type="month"
+                placeholder="选择月份"
+                size="small"
+                style="width: 128px"
+                class="date-picker"
+              >
+              </el-date-picker>
+              <!-- id="left-echarts" ECharts专用 -->
+              <div id="left-echarts1" class="left-main"></div>
             </div>
           </div>
           <!-- 下面图表 -->
           <div class="left-bottom">
             <div class="left-top-title">
               <img src="../assets/1.png" alt="" />
-              <span>学校开课次数统计</span>
+              <span style="margin-left: 33px">学校开课次数统计</span>
               <span>学期</span>
+              <!-- 日期选择器组件
+                   type 显示类型
+                   range-separator 页面上开始日期与结束日期的分隔符
+                   start-placeholder 范围选择时开始日期的占位内容
+                   end-placeholder 范围选择时结束日期的占位内容
+                   size 输入框尺寸
+              -->
+              <el-date-picker
+                v-model="dateRangeValue"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                size="small"
+                style="width: 200px;border-radius: 0;"
+                class="date-picker"
+              >
+              </el-date-picker>
               <span>月份</span>
+              <!--  月份选择器组件
+                   type 显示类型
+                   placeholder	非范围选择时的占位内容
+                   size 输入框尺寸
+              -->
+              <el-date-picker
+                v-model="monthValue"
+                type="month"
+                placeholder="选择月份"
+                size="small"
+                style="width: 128px"
+                class="date-picker"
+              >
+              </el-date-picker>
+              <div id="left-echarts2" class="left-main"></div>
             </div>
           </div>
         </div>
@@ -131,12 +198,53 @@
         <div class="main-right">
           <!-- 右左侧图表 -->
           <div class="right-left">
-            <img src="../assets/1.png" alt="" />
-            <span>学校开课次数统计</span>
+            <div class="right-left-title">
+              <img src="../assets/1.png" alt="" />
+              <span>学校开课次数排行（本学期）</span>
+            </div>
+            <div class="right-left-main">
+              <div v-for="(item,index) in schoolList" :key="index">
+                <div :class="itemClass[index]" style="height: 50px;line-height: 50px;text-align: center;display:flex;">
+                  <img 
+                    src="../assets/no1.png" 
+                    alt="" 
+                    style="padding: 0 30px;"
+                    v-if="index === 0" 
+                  />
+                  <img
+                    src="../assets/no2.png"
+                    alt=""
+                    style="padding: 0 30px;"
+                    v-else-if="index === 1"
+                  />
+                  <img
+                    src="../assets/no3.png"
+                    alt=""
+                    style="padding: 0 30px;"
+                    v-else-if="index === 2"
+                  />
+                  <p style="padding: 0 30px;" v-else>{{ index+1 }}</p>
+                  <p style="width: 268px">{{ item.name }}</p>
+                  <p>{{ item.count }}</p>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- 右右侧图表 -->
           <div class="right-right">
-            <img src="../assets/2.png" alt="" />
+            <div class="right-right-title">
+              <img src="../assets/2.png" alt="" />
+              <span>老师开课次数排行（本学期）</span>
+            </div>
+            <div class="right-left-main">
+              <div v-for="(item,index) in teacherList" :key="index">
+                <div style="display:flex;height: 50px;line-height: 50px;">
+                  <p style="width: 100px;text-align: center;">{{ index+1 }}</p>
+                  <p style="width: 268px">{{ item.name }}</p>
+                  <p>{{ item.count }}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -149,6 +257,8 @@ export default {
   name:'Index',
   data() {
     return {
+      dateRangeValue:"",
+      monthValue:"",
       navMenuList: [
         {
           path: '/index',
@@ -192,12 +302,114 @@ export default {
           title: '系统管理',
           icon: 'el-icon-setting'
         }
-      ]
+      ],
+      echartsValue:{
+        // 配置语法详见 https://www.runoob.com/echarts/echarts-setup.html
+        title: {
+            // text: '学校开课次数统计'
+        },
+        tooltip: {},
+        // X轴数据
+        xAxis: {
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        // Y轴数据
+        yAxis: {},
+        series: [{
+            name: '销量',
+            //  bar 柱状/条形图
+            type: 'bar',
+            data: [120, 200, 150, 80, 70, 110, 130]
+        }]
+      },
+      schoolList: [
+        {
+          name: "沈阳市第十一中学",
+          count: 55,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 54,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+        {
+          name: "沈阳市第十一中学",
+          count: 52,
+        },
+      ],
+      teacherList: [
+        { name: "李丹-沈阳市第一二零中学", count: 54 },
+        { name: "张三-沈阳市第一二零中学", count: 53 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+        { name: "李丹-沈阳市第一二零中学", count: 52 },
+      ],
+      itemClass:["item0","item1","item2"]
     };
   },
   methods: {
   },
-
+  // 页面加载完调用
+  mounted() {
+    //Echarts start
+    var echarts = require('echarts');
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('left-echarts1'),'customed');
+    var myChart2 = echarts.init(document.getElementById('left-echarts2'),'customed');
+    // 绘制图表 数据放在date
+    myChart1.setOption(this.echartsValue);
+    myChart2.setOption(this.echartsValue);
+    //Echarts end
+  },
 }
 </script>
 
@@ -337,9 +549,58 @@ export default {
       rgba(0, 168, 255, 0.2) 0
     );
   }
-  .left-top>img{
+  .left-top-title{
+    height: 80px;
+    line-height: 80px;
+    color: #fff;
+    font-size: 18px;
+    position: relative;
+  }
+  .left-top-title>img{
     position:absolute;
   }
+  /* nth-of-type 同级元素选择 */
+  .left-top-title>span:nth-of-type(2){
+    font-size: 14px;
+    color: #dfdede;
+    margin-left: 70px; 
+    margin-right: 12px
+  }
+  /* nth-of-type 同级元素选择 */
+  .left-top-title>span:nth-of-type(3){
+    font-size: 14px;
+    color: #dfdede;
+    margin-left: 30px; 
+    margin-right: 12px
+  }
+  /* 日期月份选择器 */
+  .date-picker{
+    line-height: 0;
+    background-color: rgba(12, 71, 135, 0.8);
+    border: 1px solid #0084c8;
+  }
+  /* TODO给el-range-input el-range-separator el-input__inner加样式 */
+  .date-picker /deep/.el-range-input {
+    background-color: rgba(12, 71, 135, 0.8);
+    color: #dfdede;
+  }
+  .date-picker /deep/.el-range-separator {
+    color: #dfdede;
+  }
+  .date-picker /deep/.el-input__inner {
+    background: transparent;
+    border: none;
+  }
+
+  /* 柱状图 */
+  .left-main{
+    width: 734px;
+    height: 361px;
+    background: rgba(1, 28, 47, 0.4);
+    /* div水平居中 */
+    margin: 0 auto;
+  }
+
   .left-bottom{
     width: 750px;
     height: 450px;
@@ -349,6 +610,7 @@ export default {
       transparent 35px,
       rgba(0, 168, 255, 0.2) 0
     );
+    margin-top: 25px;
   }
   .left-bottom>img{
     position:absolute;
@@ -356,9 +618,11 @@ export default {
   /* 左侧图表end */
   /* 右侧图表start */
   .main-right{
+    width: 940px;
     display: flex;
     justify-content: space-around;
   }
+  /* 右侧左边 */
   .right-left{
     width: 450px;
     height: 925px;
@@ -369,11 +633,33 @@ export default {
       rgba(0, 168, 255, 0.2) 0
     );
   }
-  .right-left>img{
+  .right-left-title>img{
     position:absolute;
   }
   .right-left-title{
+    height: 80px;
+    line-height: 80px;
+    color: #fff;
+    font-size: 18px;
+    position: relative;
   }
+  .right-left-title>span{
+    margin-left: 70px; 
+    margin-right: 12px
+  }
+  /* 列表 */
+  .right-left-main{
+    width: 434px;
+    height: 837px;
+    margin: 0 auto;
+    background: rgba(1, 28, 47, 0.4);
+  }
+  /* 孙代选择器 空格 */
+  .right-left-main p{
+    color: #dfdede;
+    font-size: 16px;
+  }
+  /* 右侧右边 */
   .right-right{
     width: 450px;
     height: 925px;
@@ -384,9 +670,39 @@ export default {
       rgba(0, 168, 255, 0.2) 0
     );
   }
-  .right-right>img{
+  .right-right-title>img{
     position:absolute;
     right: -3px;
+  }
+  .right-right-title{
+    height: 80px;
+    line-height: 80px;
+    color: #fff;
+    font-size: 18px;
+    position: relative;
+  }
+  .right-right-title>span{
+    margin-left: 70px; 
+    margin-right: 12px
+  }
+
+  .item0{
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(249, 79, 70, 0.1);
+    display:flex;
+  }
+  .item1{
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(53, 171, 249, 0.1);
+    display:flex;
+  }
+  .item2{
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(76, 200, 117, 0.1);
+    display:flex;
   }
   /* 右侧图表end */
   /* 图表end */
