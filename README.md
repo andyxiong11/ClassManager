@@ -14,6 +14,7 @@ npm run serve
   - 配置babel.config.js
 - 需要安装element ui   npm i element-ui -S
 - 需要安装echarts npm install echarts --save
+- 需要安装vuescroll npm i vuescroll -S
 ### Compiles and minifies for production
 ```
 npm run build
