@@ -203,31 +203,33 @@
               <span>学校开课次数排行（本学期）</span>
             </div>
             <div class="right-left-main">
-              <div v-for="(item,index) in schoolList" :key="index">
-                <div :class="itemClass[index]" style="height: 50px;line-height: 50px;text-align: center;display:flex;">
-                  <img 
-                    src="../assets/no1.png" 
-                    alt="" 
-                    style="padding: 0 30px;"
-                    v-if="index === 0" 
-                  />
-                  <img
-                    src="../assets/no2.png"
-                    alt=""
-                    style="padding: 0 30px;"
-                    v-else-if="index === 1"
-                  />
-                  <img
-                    src="../assets/no3.png"
-                    alt=""
-                    style="padding: 0 30px;"
-                    v-else-if="index === 2"
-                  />
-                  <p style="padding: 0 30px;" v-else>{{ index+1 }}</p>
-                  <p style="width: 268px">{{ item.name }}</p>
-                  <p>{{ item.count }}</p>
+              <vue-scroll :ops="ops">
+                <div v-for="(item,index) in schoolList" :key="index">
+                  <div :class="itemClass[index]" style="height: 50px;line-height: 50px;text-align: center;display:flex;">
+                    <img 
+                      src="../assets/no1.png" 
+                      alt="" 
+                      style="padding: 0 30px;"
+                      v-if="index === 0" 
+                    />
+                    <img
+                      src="../assets/no2.png"
+                      alt=""
+                      style="padding: 0 30px;"
+                      v-else-if="index === 1"
+                    />
+                    <img
+                      src="../assets/no3.png"
+                      alt=""
+                      style="padding: 0 30px;"
+                      v-else-if="index === 2"
+                    />
+                    <p style="padding: 0 30px;" v-else>{{ index+1 }}</p>
+                    <p style="width: 268px">{{ item.name }}</p>
+                    <p>{{ item.count }}</p>
+                  </div>
                 </div>
-              </div>
+              </vue-scroll>
             </div>
           </div>
           <!-- 右右侧图表 -->
@@ -237,13 +239,15 @@
               <span>老师开课次数排行（本学期）</span>
             </div>
             <div class="right-left-main">
-              <div v-for="(item,index) in teacherList" :key="index">
-                <div style="display:flex;height: 50px;line-height: 50px;">
-                  <p style="width: 100px;text-align: center;">{{ index+1 }}</p>
-                  <p style="width: 268px">{{ item.name }}</p>
-                  <p>{{ item.count }}</p>
+              <vue-scroll :ops="ops">
+                <div v-for="(item,index) in teacherList" :key="index">
+                  <div style="display:flex;height: 50px;line-height: 50px;">
+                    <p style="width: 100px;text-align: center;">{{ index+1 }}</p>
+                    <p style="width: 268px">{{ item.name }}</p>
+                    <p>{{ item.count }}</p>
+                  </div>
                 </div>
-              </div>
+              </vue-scroll>
             </div>
           </div>
         </div>
@@ -253,8 +257,11 @@
 </template>
 
 <script>
+//导入vuescroll插件
+import vueScroll from 'vuescroll';
 export default {
   name:'Index',
+  components:{vueScroll},
   data() {
     return {
       dateRangeValue:"",
@@ -393,8 +400,15 @@ export default {
         { name: "李丹-沈阳市第一二零中学", count: 52 },
         { name: "李丹-沈阳市第一二零中学", count: 52 },
       ],
-      itemClass:["item0","item1","item2"]
-    };
+      itemClass:["item0","item1","item2"],
+      ops:{
+        bar:{
+          size:'6px',
+          background:'#999',
+          keepShow:true,
+        }
+      }
+    }
   },
   methods: {
   },
