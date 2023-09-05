@@ -442,6 +442,9 @@ export default {
   .el-aside {
     background-color: rgba(1, 28, 47, 0.5);
   }
+  .el-menu {
+    border-right: none;
+  }
   .el-menu-item {
     height: 72px;
   }
