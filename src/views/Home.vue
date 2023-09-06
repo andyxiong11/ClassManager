@@ -10,7 +10,7 @@
         <i class="el-icon-caret-bottom"></i>
       </div>
     </el-header>
-    <el-contailer class="container">
+    <el-container class="container">
       <!-- 侧边栏容器 -->
       <el-aside width="174px">
         <!-- active-text-color激活菜单时的颜色 
@@ -55,7 +55,22 @@
           </div>
         </el-menu>
       </el-aside>
-    </el-contailer>
+      <!-- 右边主要内容 -->
+      <el-main>
+        <!-- 标签栏 -->
+        <div class="navTab">
+          <el-tag
+            :key="tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+        </div>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
@@ -108,6 +123,7 @@ export default {
           icon: 'el-icon-setting'
         }
       ],
+      dynamicTags: ['标签一', '标签二', '标签三'],
     }
   },
   methods: {
@@ -170,6 +186,14 @@ export default {
   }
   /* 侧边栏end */
   .el-main{
+    background-color: #f5f5f5;
     padding: 0;
+  }
+  .navTab{
+    height: 60px;
+    line-height: 60px;
+    background-color: #fff;
+    position: relative;
+    padding-left: 24px;
   }
 </style>
