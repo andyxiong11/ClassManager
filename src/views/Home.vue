@@ -27,7 +27,7 @@
           <!-- navMenuList侧边导航列表 -->
           <div v-for="(item,index) in navMenuList" :key="index">
             <!-- 有二级菜单 -->
-            <el-submenu v-if="item.children">
+            <el-submenu v-if="item.children" index="1">
               <!-- 一级菜单文案样式 -->
               <template slot="title">
                 <!-- 绑定自定义icon -->
@@ -39,6 +39,7 @@
                 v-for="(item,index) in item.children" 
                 :key="index"
                 :index="item.path"
+                @click="menuClick(item.title)"
               >
                 <span>{{ item.title }}</span>
               </el-menu-item>
@@ -47,6 +48,7 @@
             <el-menu-item 
               v-if="!item.children"
               :index="item.path"
+              @click="menuClick(item.title)"
             >
               <!-- 绑定自定义icon -->
               <i :class="item.icon"></i>
@@ -61,7 +63,7 @@
         <div class="navTab">
           <el-tag
             :key="tag"
-            v-for="tag in dynamicTags"
+            v-for="tag in sessonTags"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)">
@@ -123,10 +125,18 @@ export default {
           icon: 'el-icon-setting'
         }
       ],
-      dynamicTags: ['标签一', '标签二', '标签三'],
+      sessonTags:[],
+      dynamicTags: [],
     }
   },
   methods: {
+    menuClick(title){
+      console.log(title);
+      sessionStorage.setItem("tag",title)
+      let demo = sessionStorage.getItem("tag",title)
+      this.sessonTags.push(demo);
+      console.log(this.sessonTags);
+    }
   },
   // 页面加载完调用
   mounted() {
