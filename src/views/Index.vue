@@ -30,7 +30,6 @@
               v-for="(item,index) in item.children" 
               :key="index"
               :index="item.path"
-              @click="saveNavStatus(item.title,item.path)"
             >
               <span>{{ item.title }}</span>
             </el-menu-item>
@@ -39,7 +38,6 @@
           <el-menu-item 
             v-if="!item.children"
             :index="item.path"
-            @click="saveNavStatus(item.title,item.path)"
           >
             <!-- 绑定自定义icon -->
             <i :class="item.icon"></i>
@@ -415,17 +413,6 @@ export default {
     }
   },
   methods: {
-    // 菜单点击事件
-    saveNavStatus(title,path){
-      const activeMenu={}
-      // console.log(title);
-      activeMenu.title = title
-      activeMenu.path = path
-      //JSON.stringify 将对象转换成json
-      sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
-      this.dynamicTags.push(activeMenu);
-      // console.log(this.dynamicTags);
-    },
   },
   // 页面加载完调用
   mounted() {
