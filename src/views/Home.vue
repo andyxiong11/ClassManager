@@ -39,7 +39,7 @@
                 v-for="(item,index) in item.children" 
                 :key="index"
                 :index="item.path"
-                @click="menuClick(item.title)"
+                @click="saveNavStatus(item.title,item.path)"
               >
                 <span>{{ item.title }}</span>
               </el-menu-item>
@@ -48,7 +48,7 @@
             <el-menu-item 
               v-if="!item.children"
               :index="item.path"
-              @click="menuClick(item.title)"
+              @click="saveNavStatus(item.title,item.path)"
             >
               <!-- 绑定自定义icon -->
               <i :class="item.icon"></i>
@@ -61,13 +61,17 @@
       <el-main>
         <!-- 标签栏 -->
         <div class="navTab">
+          <!-- closable是否可关闭
+               disable-transitions	是否禁用渐变动画
+          -->
           <el-tag
             :key="tag"
-            v-for="tag in sessonTags"
+            v-for="tag in dynamicTags"
             closable
             :disable-transitions="false"
+            @click="goto(tag.path)"
             @close="handleClose(tag)">
-            {{tag}}
+            {{tag.title}}
           </el-tag>
         </div>
         <router-view></router-view>
@@ -125,17 +129,29 @@ export default {
           icon: 'el-icon-setting'
         }
       ],
-      sessonTags:[],
       dynamicTags: [],
     }
   },
   methods: {
-    menuClick(title){
-      console.log(title);
-      sessionStorage.setItem("tag",title)
-      let demo = sessionStorage.getItem("tag",title)
-      this.sessonTags.push(demo);
-      console.log(this.sessonTags);
+    // 菜单点击事件
+    saveNavStatus(title,path){
+      const activeMenu={}
+      // console.log(title);
+      activeMenu.title = title
+      activeMenu.path = path
+      //JSON.stringify 将对象转换成json
+      sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
+      this.dynamicTags.push(activeMenu);
+      // console.log(this.dynamicTags);
+    },
+    // 关闭tag标签
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+    // 标签跳转
+    goto(path){
+      //第二、第三个参数分别为成功和失败的回调函数，不写会报错
+      this.$router.push(path, ()=>{}, ()=>{})
     }
   },
   // 页面加载完调用
