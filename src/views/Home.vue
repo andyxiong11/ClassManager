@@ -141,6 +141,7 @@ export default {
       activeMenu.path = path
       //JSON.stringify 将对象转换成json
       sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
+      //TODO待修复 如果数组中不存在该元素再插入
       this.dynamicTags.push(activeMenu);
       // console.log(this.dynamicTags);
     },
