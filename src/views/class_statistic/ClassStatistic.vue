@@ -1,22 +1,30 @@
 <template>
   <div>
     <el-card class="main-card-box">
-      <!-- 筛选条件 header组件头部 -->
+      <!-- 筛选条件 header表示是el-card组件头部 -->
       <div slot="header">
         <el-form :inline="true" style="display: flex; justify-content: space-between;">
           <div>
             <el-form-item label="学校">
               <!-- size="small" 下拉框尺寸 -->
               <el-select v-model="schoolSelectValue" placeholder="请选择" size="small" style="width: 200px">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-option
+                  v-for="item in schoolSelectValue"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="老师">
               <!-- size="small" 下拉框尺寸 -->
-              <el-select v-model="schoolSelectValue" placeholder="请选择" size="small" style="width: 200px">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+              <el-select v-model="teacherSelectValue" placeholder="请选择" size="small" style="width: 200px">
+                <el-option
+                  v-for="item in teacherSelectValue"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="学期">
