@@ -120,7 +120,9 @@
       >
       </el-pagination>
     </el-card>
-    <!-- 对话框 -->
+    <!-- 对话框 
+         dialogTableVisible 对话框显示状态
+    -->
     <el-dialog title="查看详情" :visible.sync="dialogTableVisible">
       <el-form :inline="true" style="display: flex; justify-content: space-between;">
         <div>
@@ -148,7 +150,7 @@
         </div>
       </el-form>
       <el-table
-        :data="tableData"
+        :data="dialogTableData"
         stripe
         header-cell-class-name="table-cell-classname"
         cell-class-name="table-cell-style"
@@ -168,16 +170,40 @@
           label="学科">
         </el-table-column>
         <el-table-column
-          prop="speakNum"
-          label="主讲/次"
+          prop="status"
+          label="状态"
+          width="180">
+          <!-- 自定义列的显示内容 -->
+          <template slot-scope="scope">
+            <div>
+              <!-- scope.row获取dialogTableData数据 -->
+              <!-- 判断item内容改变标签样式 -->
+              <el-tag 
+                v-for="(item,index) in scope.row.status" 
+                :key="index"
+                :type="item === '录制' ? 'warning' : ''"
+                style="margin: auto 5px;"
+              >
+                {{ item }}
+              </el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="date"
+          label="操作时间"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="video"
-          label="录课/次"
+          prop="duration"
+          label="操作时长（主讲/录制）"
           width="180">
         </el-table-column>
       </el-table>
+      <span slot="footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -294,7 +320,24 @@
         //对话框的状态
         statusSelectValue:"",
         //对话框日期
-        operationTime:""
+        operationTime:"",
+        // 对话框数据
+        dialogTableData: [
+          {
+            teacherName: "李丹",
+            subject: "语文",
+            status: ["主讲"],
+            date: "2020-11-22",
+            duration: "42分钟",
+          },
+          {
+            teacherName: "李丹",
+            subject: "语文",
+            status: ["主讲", "录制"],
+            date: "2020-11-22",
+            duration: "42分钟",
+          },
+        ],
       }
     }
   }
