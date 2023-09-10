@@ -3,7 +3,7 @@
     <el-card class="main-card-box">
       <!-- 筛选条件 header表示是el-card组件头部 -->
       <div slot="header">
-        <el-form :inline="true" style="display: flex; justify-content: space-between;">
+        <el-form :inline="true" style="display: flex; justify-content: space-between;align-items: center;">
           <div>
             <el-form-item label="学校">
               <!-- size="small" 下拉框尺寸 -->
@@ -28,7 +28,7 @@
                 v-model="classroomSelectValue"
                 placeholder="请选择" 
                 size="small" 
-                style="width: 200px"
+                style="width: 128px"
               >
                 <el-option
                   v-for="item in classroomSelectValue"
@@ -45,7 +45,7 @@
                 v-model="teacherSelectValue" 
                 placeholder="请选择" 
                 size="small" 
-                style="width: 200px"
+                style="width: 128px"
               >
                 <el-option
                   v-for="item in teacherSelectValue"
@@ -89,9 +89,9 @@
           </div>
         </el-form>
       </div>
-      <!-- 课程表 -->
+      <!-- 课程表头部 -->
       <div style="display: flex; justify-content: space-between;">
-        <span style="font-size: 15px;font-weight: bold;">教学周：2020年9月2日-2021年1月17日</span>
+        <span class="fixed-text">教学周：2020年9月2日-2021年1月17日</span>
         <!-- size图标大小
              circle 圆形
              plain 朴素
@@ -104,7 +104,7 @@
             circle
             plain
           ></el-button>
-          <span style="margin: auto 40px;font-size: 15px;font-weight: bold;">第45周</span>
+          <span class="fixed-text" style="margin: auto 40px;">第45周</span>
           <el-button
             size="mini"
             icon="el-icon-arrow-right"
@@ -120,24 +120,116 @@
         <div></div>
       </div>
       <!-- 课程表表格 -->
-      <div style="display: flex;">
+      <div style="display: flex;margin-top: 29px">
         <!-- 第一列 -->
-        <div style="display: flex;flex-direction: column; ">
-          <div style="height: 73px;width: 205px;border: 1px solid #f1f1f1;"></div>
+        <div class="flex-vertical-center">
+          <div class="table-column"></div>
           <div 
-            style="height: 73px;width: 205px;border: 1px solid #f1f1f1;"
+            class="table-column fixed-text"
+            style="line-height: 73px;"
             v-for="i in 8" 
             :key="i"
           >
             第{{ i }}节
           </div>
-
-          <div
-            style="display: flex;flex-direction: column; "
-            v-for="(item, index) in classTableData"
+        </div>
+        <!-- 后几列 -->
+        <div
+          class="flex-vertical-center"
+          v-for="(item, index) in classTableData"
+          :key="index"
+        >
+          <!-- 第一行星期 -->
+          <div class="flex-vertical-center fixed-text table-column">
+            <span>星期{{ num2week(index+1) }}</span>
+            <span style="font-size: 12px ;color: #9f9f9f;font-weight: 400;">
+              {{ item.date }}
+            </span>
+          </div>
+          <!-- 下方课程数据 -->
+          <div 
+            class="flex-vertical-center table-column"
+            v-for="(item, index) in classTableData[index].classes" 
             :key="index"
           >
-            <span>星期{{ index }}</span>
+            <!-- 弹框 
+                 trigger触发方式
+                 placement出现位置
+                 visible-arrow	是否显示 Tooltip 箭头
+                 popper-class	为 popper 添加类名
+            -->
+            <!-- v-if item.subject有内容时展示 -->
+            <el-popover
+              v-if="item.subject"
+              trigger="hover"
+              placement="right-end"
+              :visible-arrow="false"
+              popper-class="classcell-poper-box"
+            >
+              <!-- 弹框 -->
+              <div class="flex-vertical-center">
+                <!-- 标题 -->
+                <div class="content-item" style="justify-content: center;">
+                  英语（李老师）<i class="el-icon-close"></i>
+                </div>
+                <!-- 内容 -->
+                <div class="content-item">
+                  <span>主讲教室：</span>
+                  <p>沈阳市第十一中学 综合教室1</p>
+                </div>
+                <div class="content-item">
+                  <span>听课教室：</span>
+                  <div>
+                    <p>沈阳市第十一中学 综合教室1</p>
+                    <p>沈阳市第十一中学 综合教室2</p>
+                  </div>
+                </div>
+                <div class="content-item">
+                  <span>课程码：</span>
+                  <div>
+                    <p>1303247874</p>
+                  </div>
+                </div>
+                <div class="content-item">
+                  <span>课程码：</span>
+                  <div>
+                    <img src="../../assets/class_code_img.png" alt="" />
+                  </div>
+                </div>
+                <div style="width: 100%; border: 1px #fff solid;"></div>
+                <!-- 鼠标 cursor: pointer; 
+                     deleteMessageBox 弹框
+                -->
+                <div @click="deleteMessageBox" style="width: 100%;color: #fff;margin-top: 10px;cursor: pointer;">
+                  <i class="el-icon-delete" style="float: right;margin-right: 8px;"></i>
+                </div>
+              </div>
+              <!-- slot="reference" 触发弹框区域的内容 -->
+              <div slot="reference" class="flex-vertical-center">
+                <div>
+                  <span style="font-size: 15px;font-weight: bold;color: #409eff;">{{ item.subject }}</span>
+                  <span style="font-size: 12px;font-weight: 400;color: #9f9f9f;"> | {{ item.teacher }}</span>
+                </div>
+                <!-- effect主题 -->
+                <el-tag 
+                  :type="tagTypeFilter(item.status)"
+                  size="mini"
+                  effect="dark"
+                >{{ item.status }}
+                </el-tag>
+              </div>
+            </el-popover>
+            <!-- <div v-else 
+              @mouseover="btnShowFlag = true"
+              @mouseout="btnShowFlag = false">
+              <el-button v-show="btnShowFlag">
+                <i class="el-icon-circle-plus-outline"></i>
+              </el-button>
+            </div> -->
+            <!-- v-else -->
+            <!-- circle el-button圆角 -->
+            <el-button v-else icon="el-icon-plus" circle @click="addDialogVisible = true">
+            </el-button>
           </div>
         </div>
       </div>
@@ -174,6 +266,46 @@
         <el-button type="primary" @click="holidayPlanDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 添加课程对话框 -->
+    <el-dialog title="新增课程" :visible.sync="addDialogVisible" width="40%">
+      <span>课程信息</span>
+      <el-form :model="classForm" :rules="classFormRules" ref="classForm" label-width="100px">
+        <!-- required 是否必填 -->
+        <el-form-item label="课程名称" prop="className" required>
+          <el-input v-model="classForm.className"></el-input>
+        </el-form-item>
+        <div>
+          <el-form-item label="选择学校" prop="school" required>
+            <el-select v-model="classForm.school" placeholder="请选择学校">
+              <el-option
+                v-for="item in schoolOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="主讲教室" prop="classroom" required>
+            <el-select v-model="classForm.classroom" placeholder="请选择教室">
+              <el-option
+                v-for="item in classroomOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <el-form-item label="特殊资源" prop="resource">
+          <el-radio-group v-model="ruleForm.resource">
+            <el-radio label="线上品牌商赞助"></el-radio>
+            <el-radio label="线下场地免费"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -182,6 +314,16 @@
     name:"ClassSchedule",
     data(){
       return{
+        // 学校数据
+        schoolSelectValue:"",
+        // 学校选项数据
+        schoolOptions:"",
+        // 教室数据
+        classroomOptions:"",
+        // 教室选项数据
+        classroomSelectValue:"",
+        // 老师数据
+        teacherSelectValue:"",
         // 控制对话框打开关闭
         holidayPlanDialogVisible:false,
         // 假期排课对话框必选项校验
@@ -274,11 +416,96 @@
             classes: [{}, {}, {}, {}, {}, {}, {}, {}],
           },
         ],
+        //课程表星期
+        num2week(input) {
+          switch (input) {
+            case 1:
+              return "一";
+            case 2:
+              return "二";
+            case 3:
+              return "三";
+            case 4:
+              return "四";
+            case 5:
+              return "五";
+            case 6:
+              return "六";
+            case 7:
+              return "日";
+          }
+        },
+        // 上课状态
+        tagTypeFilter(input) {
+          switch (input) {
+            case "未上课":
+              return "danger";
+            case "已上课":
+              return "info";
+            case "开始上课":
+              return "";
+            case "未开课":
+              return "warning";
+          }
+        },
+        // 控制添加课程展示
+        addDialogVisible:false,
+        // 新增课程信息数据
+        // 课程信息表单
+        classForm: {
+          className: "",
+          school: "",
+          classroom: "",
+          classPlan: {
+            type: "1",
+            startDate: "",
+            endDate: "",
+            startTime: "",
+            endTime: "",
+            weekdays: [""],
+            nums: [""],
+          },
+        },
       }
     },
     methods: {
       openHolidayPlanDialog(){
 
+      },
+      // 弹框删除课程
+      deleteMessageBox(){
+        this.$confirm('删除本节课还是删除该学科的所有课程?', '删除课程提示', {
+          confirmButtonText: '删除本节课',
+          cancelButtonText: '删除该学科所有课',
+          // 消息类型 用于显示图标
+          type: 'warning',
+        })
+        // 删除本节课
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          });
+        })
+        // 删除该学科所有课
+        .catch(()=>{
+          this.$confirm('是否删除该学科的所有课程?', '删除课程提示', {
+          confirmButtonText: '确认删除',
+          cancelButtonText: '取消',
+          // 消息类型 用于显示图标
+          type: 'error',
+          })
+          // 确认
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            });
+          })
+          // 删除
+          .catch(()=>{
+          })
+        });
       }
     },
   }
@@ -288,5 +515,47 @@
    /* 卡片 */
    .main-card-box{
     margin: 12px 20px 20px;
+  }
+  .el-form-item{
+    margin-bottom: 0 !important;
+  }
+  /* 单元格 */
+  .table-column {
+    height: 73px;
+    width: 205px;
+    border: 1px solid #f1f1f1;
+  }
+  /* 单元格表头内容 */
+  .fixed-text {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+  }
+  /* flex垂直居中分布布局 */
+  .flex-vertical-center{
+    display: flex;
+    /* 垂直排列 */
+    flex-direction: column;
+    align-items: center;
+    /* 居中分布 */
+    justify-content: center;
+  }
+  /* 弹框 */
+  .classcell-poper-box {
+    width: 300px;
+    background: #90969f !important;
+    opacity: 0.9;
+    border-radius: 6px;
+  }
+  /* 课程表弹框内容 */
+  .content-item {
+    color: #fff;
+    display: flex;
+    width: 260px;
+    margin-bottom: 15px;
+  }
+  .content-item >  span {
+    width: 70px;
+    text-align: right;
   }
 </style>
