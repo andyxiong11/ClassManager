@@ -298,11 +298,54 @@
             </el-select>
           </el-form-item>
         </div>
-        <el-form-item label="特殊资源" prop="resource">
-          <el-radio-group v-model="ruleForm.resource">
-            <el-radio label="线上品牌商赞助"></el-radio>
-            <el-radio label="线下场地免费"></el-radio>
-          </el-radio-group>
+        <el-form-item label="上课时间" required>
+          <div>
+            <el-radio v-model="classForm.classPlan.type" label="1">周期排课</el-radio>
+            <el-radio v-model="classForm.classPlan.type" label="2">临时排课</el-radio>
+          </div>
+          <div>
+            <el-date-picker
+              v-model="holidayPlanForm.startDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+            <span style="margin: auto 20px">-</span>
+            <el-date-picker
+              v-model="holidayPlanForm.endDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+          <div>
+            <el-time-picker
+              v-model="value1"
+              placeholder="选择时间">
+            </el-time-picker>
+            <span style="margin: auto 20px">-</span>
+            <el-time-picker
+              v-model="value2"
+              placeholder="选择时间">
+            </el-time-picker>
+          </div>
+          <div>
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <span style="margin: auto 20px">-</span>
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -451,21 +494,23 @@
         // 控制添加课程展示
         addDialogVisible:false,
         // 新增课程信息数据
-        // 课程信息表单
         classForm: {
-          className: "",
-          school: "",
-          classroom: "",
+          className: "",//课程名称
+          school: "",//学校
+          classroom: "",//教室
+          // 选项数据
           classPlan: {
-            type: "1",
-            startDate: "",
-            endDate: "",
+            type: "1",//上课时间
+            startDate: "",//开始时间
+            endDate: "",//结束时间
             startTime: "",
             endTime: "",
             weekdays: [""],
             nums: [""],
           },
         },
+        // 新增课程表单规则
+        classFormRules:""
       }
     },
     methods: {
