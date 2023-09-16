@@ -351,7 +351,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   /* 卡片 */
   .main-card-box{
     margin: 12px 20px 20px;

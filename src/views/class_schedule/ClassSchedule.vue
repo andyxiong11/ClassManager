@@ -5,7 +5,7 @@
       <div slot="header">
         <el-form :inline="true" style="display: flex; justify-content: space-between;align-items: center;">
           <div>
-            <el-form-item label="学校">
+            <el-form-item label="学校" style="margin-bottom: 0;">
               <!-- size="small" 下拉框尺寸 -->
               <el-select 
                 v-model="schoolSelectValue" 
@@ -22,7 +22,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="教室">
+            <el-form-item label="教室" style="margin-bottom: 0;">
               <!-- size="small" 下拉框尺寸 -->
               <el-select 
                 v-model="classroomSelectValue"
@@ -39,7 +39,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="老师">
+            <el-form-item label="老师" style="margin-bottom: 0;">
               <!-- size="small" 下拉框尺寸 -->
               <el-select 
                 v-model="teacherSelectValue" 
@@ -56,7 +56,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item>
+            <el-form-item style="margin-bottom: 0;">
               <el-button 
                 type="primary" 
                 icon="el-icon-search" 
@@ -300,11 +300,11 @@
           </el-form-item>
         </div>
         <el-form-item label="上课时间" required>
-          <div>
+          <div style="margin-bottom: 20px;">
             <el-radio v-model="classForm.classPlan.type" label="1">周期排课</el-radio>
             <el-radio v-model="classForm.classPlan.type" label="2">临时排课</el-radio>
           </div>
-          <div>
+          <div style="margin-bottom: 20px;">
             <el-date-picker
               v-model="holidayPlanForm.startDate"
               type="date"
@@ -317,7 +317,7 @@
               placeholder="选择日期">
             </el-date-picker>
           </div>
-          <div>
+          <div style="margin-bottom: 20px;">
             <el-time-picker
               v-model="value1"
               placeholder="选择时间">
@@ -328,7 +328,7 @@
               placeholder="选择时间">
             </el-time-picker>
           </div>
-          <div>
+          <div style="margin-bottom: 20px;">
             <el-select v-model="value" placeholder="请选择周几">
               <el-option
                 v-for="item in options"
@@ -728,14 +728,12 @@
   }
 </script>
 
-<style>
+<style scpoped>
    /* 卡片 */
    .main-card-box{
     margin: 12px 20px 20px;
   }
-  .el-form-item{
-    margin-bottom: 0 !important;
-  }
+
   /* 单元格 */
   .table-column {
     height: 73px;
