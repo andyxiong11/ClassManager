@@ -7,7 +7,7 @@ import Home from '../views/Home.vue'
 
 import ClassStatistic from '../views/class_statistic/ClassStatistic.vue'
 import ClassSchedule from '../views/class_schedule/ClassSchedule.vue'
-import AllDocument from '../views/document_center/AllDocumnet.vue'
+import AllDocument from '../views/document_center/AllDocument.vue'
 import OwnDocument from '../views/document_center/OwnDocument.vue'
 import LiveClassList from '../views/class_monitor/LiveClassList.vue'
 import LiveClassDetail from '../views/class_monitor/LiveClassDetail.vue'
