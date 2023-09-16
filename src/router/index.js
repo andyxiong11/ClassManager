@@ -23,11 +23,13 @@ const router = new VueRouter({
       redirect: '/login'
     },
     {
+      // 登录页面
       path:'/login',
       name:'login',
       component:Login
     },
     {
+      // 数据中心
       path:'/index',
       name:'index',
       component:Index
@@ -37,24 +39,31 @@ const router = new VueRouter({
       name:'home',
       component:Home,
       children: [{
+        // 上课统计
         path: 'class-statistic',
         component: ClassStatistic
       }, {
+        // 课表管理
         path: 'class-schedule',
         component: ClassSchedule
       }, {
+        // 全部课件
         path: 'all-document',
         component: AllDocument,
       }, {
+        // 个人课件
         path: 'own-document',
         component: OwnDocument,
       }, {
+        // 巡课管理
         path: 'live-classes',
         component: LiveClassList,
       }, {
+        // 录播课堂详情
         path: 'live-classes-detail',
         component: LiveClassDetail,
       }, {
+        // 录播课堂
         path: 'video-list',
         component: VideoList,
       }]
