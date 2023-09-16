@@ -219,6 +219,7 @@
                 </el-tag>
               </div>
             </el-popover>
+            <!-- TODO 鼠标移上去才显示添加按钮为实现 -->
             <!-- <div v-else 
               @mouseover="btnShowFlag = true"
               @mouseout="btnShowFlag = false">
@@ -268,13 +269,13 @@
     </el-dialog>
     <!-- 添加课程对话框 -->
     <el-dialog title="新增课程" :visible.sync="addDialogVisible" width="40%">
-      <span>课程信息</span>
+      <span class="form-group-title">课程信息</span>
       <el-form :model="classForm" :rules="classFormRules" ref="classForm" label-width="100px">
         <!-- required 是否必填 -->
         <el-form-item label="课程名称" prop="className" required>
           <el-input v-model="classForm.className"></el-input>
         </el-form-item>
-        <div>
+        <div style="display: flex;">
           <el-form-item label="选择学校" prop="school" required>
             <el-select v-model="classForm.school" placeholder="请选择学校">
               <el-option
@@ -328,7 +329,7 @@
             </el-time-picker>
           </div>
           <div>
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="value" placeholder="请选择周几">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -337,7 +338,7 @@
               </el-option>
             </el-select>
             <span style="margin: auto 20px">-</span>
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="value" placeholder="请选择第几节课">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -345,6 +346,149 @@
                 :value="item.value">
               </el-option>
             </el-select>
+          </div>
+        </el-form-item>
+      </el-form>
+      <span class="form-group-title">主讲信息</span>
+      <el-form :model="speakInfoForm" :rules="speakInfoFormRules" ref="speakInfoForm" label-width="100px">
+        <!-- required 是否必填 -->
+        <div>
+          <el-form-item label="主讲老师" prop="teacher" required>
+            <el-select v-model="speakInfoForm.teacher" placeholder="请选择">
+              <el-option
+                v-for="item in teacherOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="外聘老师" prop="externalTeacher" required>
+              <el-input
+                v-model="speakInfoForm.externalTeacher"
+                placeholder="请填写外聘老师名字"
+                style="width: 217px"
+              ></el-input>
+            </el-form-item>
+        </div>
+        <!-- 选择年级  学科 -->
+        <div style="display: flex; ">
+          <el-form-item label="选择年级" prop="grade" required>
+            <el-select v-model="speakInfoForm.grade" placeholder="请选择">
+              <el-option
+                v-for="item in gradeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="选择学科" prop="subject" required>
+            <el-select v-model="speakInfoForm.subject" placeholder="请选择">
+              <el-option
+                v-for="item in subjectOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div style="display: flex; ">
+          <el-form-item label="选择年级" prop="grade" required>
+            <el-select v-model="speakInfoForm.grade" placeholder="请选择">
+              <el-option
+                v-for="item in gradeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="选择学科" prop="subject" required>
+            <el-select v-model="speakInfoForm.subject" placeholder="请选择">
+              <el-option
+                v-for="item in subjectOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+      </el-form>
+      <span class="form-group-title">听课信息</span>
+      <el-form :model="listenInfoForm" :rules="listenInfoFormRules" ref="listenInfoForm" label-width="100px">
+        <!-- required 是否必填 -->
+        <el-form-item label="听课教室" required>
+          <div v-for="(item,index) in listenInfoForm.schools" :key="index">
+            <el-select v-model="listenInfoForm.schools[index]" placeholder="请选择学校">
+              <el-option
+                v-for="item in schoolOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <span style="margin: auto 20px">-</span>
+            <el-select v-model="listenInfoForm.classrooms[index]" placeholder="请选择教室">
+              <el-option
+                v-for="item in classroomOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <!-- 添加教室按钮 -->
+            <el-button
+              v-if="index === listenInfoForm.schools.length - 1"
+              type="primary"
+              icon="el-icon-plus"
+              circle
+              plain
+              size="mini"
+              @click="addSchoolSelector"
+            >
+            </el-button>
+            <!-- 删除教室按钮 -->
+            <el-button
+              v-else
+              type="danger"
+              icon="el-icon-minus"
+              circle
+              plain
+              size="mini"
+              @click="deleteSchoolSelector"
+            >
+
+            </el-button>
+          </div>
+        </el-form-item>
+        <el-form-item label="课程码" style="color: #c0c4cc">
+          <span>26535233325</span>
+          <!-- el-icon-document-copy element图标 
+               cursor: pointer 鼠标手
+          -->
+          <i class="el-icon-document-copy" style="cursor: pointer">复制</i>
+        </el-form-item>
+        <el-form-item label="分享码">
+          <div style="display: flex;padding-top: 10px;">
+            <el-switch v-model="shareSwitchFlag"> </el-switch>
+            <!-- flex-vertical-center flex垂直布局居中 -->
+            <div v-if="shareSwitchFlag" class="flex-vertical-center">
+              <img src="../../assets/class_code_img.png" alt="">
+              <!-- el-icon-document-copy element图标 
+                cursor: pointer 鼠标手
+              -->
+              <i class="el-icon-document-copy" style="cursor: pointer; color: #c0c4cc">复制</i>
+            </div>
           </div>
         </el-form-item>
       </el-form>
@@ -509,8 +653,26 @@
             nums: [""],
           },
         },
-        // 新增课程表单规则
-        classFormRules:""
+        // 新增课程信息规则数据
+        classFormRules:"",
+        // 新增课程主讲信息数据
+        speakInfoForm: {
+          teacher: "", //主讲老师
+          externalTeacher: "", // 外聘老师
+          grade: "",//年级
+          subject: "", //课程
+        },
+        // 新增课程主讲信息规则
+        speakInfoFormRules: {},
+        // 新增课程听课信息数据
+        listenInfoForm: {
+          schools: [""],
+          classrooms: [""],
+        },
+        // 新增课程听课信息规则
+        listenInfoFormRules: {},
+        // 控制新增课程分享码按钮
+        shareSwitchFlag:false
       }
     },
     methods: {
@@ -551,7 +713,17 @@
           .catch(()=>{
           })
         });
-      }
+      },
+      // 添加课程，添加教室
+      addSchoolSelector(){
+        this.listenInfoForm.schools.push("")
+        this.listenInfoForm.classrooms.push("")
+      },
+      // 添加课程，删除教室
+      deleteSchoolSelector(){
+        this.listenInfoForm.schools.pop("")
+        this.listenInfoForm.classrooms.pop("")
+      },
     },
   }
 </script>
@@ -602,5 +774,12 @@
   .content-item >  span {
     width: 70px;
     text-align: right;
+  }
+  /* 新增课程弹窗标题 */
+  .form-group-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
   }
 </style>
