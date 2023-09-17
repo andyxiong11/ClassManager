@@ -122,7 +122,83 @@
           </div>
         </el-form>
       </div>
+      <!-- 表格 
+           stripe 显示斑马纹
+      -->
       <div>
+        <el-table
+          :data="documentTableData"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
+          <el-table-column
+          type="index"
+          label="序号"
+          align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="fileName"
+            label="课件名"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="school"
+            label="学校"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="teacher"
+            label="老师"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="grade"
+            label="年级"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="subject"
+            label="学科"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="createDate"
+            label="上传时间"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="downloadCount"
+            label="下载次数"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            label="操作"
+            align="center"
+          >
+            <!-- el-link 文字链接 underline下划线 -->
+            <el-link icon="el-icon-view" :underline="false">预览</el-link>
+            <el-link icon="el-icon-download" :underline="false">下载</el-link>
+            <el-link icon="el-icon-edit" :underline="false">编辑</el-link>
+            <el-link icon="el-icon-edit-outline" :underline="false" @click="showDeleteOneMessageBox">删除</el-link>
+          </el-table-column>
+        </el-table>
+        <div style="text-align: center;margin-top: 20px;">
+          <!-- 分页 
+             current-page	当前页数
+             page-sizes	每页显示个数
+             total	总条目数
+          -->
+          <el-pagination
+            :current-page="1"
+            :page-size="10"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400"
+          >
+          </el-pagination>
+        </div>
       </div>
     </el-card>
     <!-- 上传课件对话框 -->
@@ -195,16 +271,28 @@
         </div>
         <el-form-item label="上传课件" required>
           <div style="display: flex;">
+            <!-- action 上传的地址
+                 limit最大上传文件数量
+                 on-exceed超过最大上传文件数量时的行为
+                 before-remove删除已上传文件时的行为 
+                 multiple 支持多选文件上传
+            -->
             <el-upload
               action="https://jsonplaceholder.typicode.com/posts/"
               multiple
               :limit="3"
+              :on-exceed="handleExceed"
+              :before-remove="beforeRemove"
             >
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <div style="color: #c0c4cc;">（仅支持上传PDF，Word，PPT格式文件）</div>
           </div>
-          <!-- 进度条 -->
+          <!-- 进度条 
+               text-inside 文字显示在进度内
+               stroke-width	进度条的宽度
+               percentage	百分比
+          -->
           <el-progress
             :text-inside="true"
             :stroke-width="18"
@@ -240,7 +328,7 @@
         gradeSelectValue: "",//年级选择内容
         subjectSelectValue: "",//学科选择内容
         searchInputValue: "", //关键字搜索内容
-        // 课件内容
+        // 课件表格内容
         documentTableData: [
           {
             fileName: "高三语文专递课堂教案",
@@ -345,6 +433,34 @@
           remark: "",
         },
       };
+    },
+    methods: {
+      // 超过最大上传文件数量时的行为
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      // 删除已上传文件时的行为
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      // 删除一个课件 弹框
+      showDeleteOneMessageBox(){
+        this.$confirm('是否确定删除该课件?', '删除课件提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      }
     },
   }
 </script>
