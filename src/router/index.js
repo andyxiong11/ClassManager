@@ -9,7 +9,7 @@ import ClassStatistic from '../views/class_statistic/ClassStatistic.vue'
 import ClassSchedule from '../views/class_schedule/ClassSchedule.vue'
 import AllDocument from '../views/document_center/AllDocument.vue'
 import OwnDocument from '../views/document_center/OwnDocument.vue'
-import LiveClassList from '../views/class_monitor/LiveClassList.vue'
+import LiveClasses from '../views/class_monitor/LiveClasses.vue'
 import LiveClassDetail from '../views/class_monitor/LiveClassDetail.vue'
 import VideoList from '../views/video_class/VideoList.vue'
 
@@ -57,9 +57,9 @@ const router = new VueRouter({
       }, {
         // 巡课管理
         path: 'live-classes',
-        component: LiveClassList,
+        component: LiveClasses,
       }, {
-        // 录播课堂详情
+        // 巡课管理详情
         path: 'live-classes-detail',
         component: LiveClassDetail,
       }, {
