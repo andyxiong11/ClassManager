@@ -1,5 +1,5 @@
 <template>
-  
+  <div>录播课堂</div>
 </template>
 
 <script>
