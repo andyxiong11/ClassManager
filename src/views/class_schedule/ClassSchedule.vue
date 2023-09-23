@@ -497,6 +497,7 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   export default {
     name:"ClassSchedule",
     data(){
@@ -724,6 +725,15 @@
         this.listenInfoForm.schools.pop("")
         this.listenInfoForm.classrooms.pop("")
       },
+    },
+    computed: {
+      ...mapState([
+        "schoolOptions",
+        "classroomOptions",
+        "teacherOptions",
+        "gradeOptions",
+        "subjectOptions",
+      ]),
     },
   }
 </script>
