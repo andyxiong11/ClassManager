@@ -160,7 +160,8 @@ export default {
     }
   },
   //组件挂载之前被调用
-  created(){
+  beforeMount(){
+    // 便于从index组件切回home组件保留菜单激活的path
     //JSON.parse 将json转换成对象
     const activeMenu = JSON.parse(window.sessionStorage.getItem("activeMenu"));
     this.activePath = activeMenu.path;
