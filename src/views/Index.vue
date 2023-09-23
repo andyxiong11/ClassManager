@@ -4,12 +4,13 @@
     <!-- 侧边栏容器 -->
     <el-aside width="174px">
       <img src="../assets/logo.png" alt="加载中" width="174px">
-      <!-- active-text-color激活菜单时的颜色 
-           router 在激活导航时以 index 作为 path 进行路由跳转
-           transparent 透明色
-      -->
+      <!--default-active	当前激活菜单的 index
+            active-text-color激活菜单时的颜色 
+            router 在激活导航时以 index 作为 path 进行路由跳转
+            transparent 透明色
+        -->
       <el-menu
-        default-active="/index"
+        :default-active="activePath"
         background-color="transparent"
         text-color="#dfdede"
         active-text-color="#01D4F9"
@@ -30,6 +31,7 @@
               v-for="(item,index) in item.children" 
               :key="index"
               :index="item.path"
+              @click="saveNavStatus(item.title,item.path)"
             >
               <span>{{ item.title }}</span>
             </el-menu-item>
@@ -38,6 +40,7 @@
           <el-menu-item 
             v-if="!item.children"
             :index="item.path"
+            @click="saveNavStatus(item.title,item.path)"
           >
             <!-- 绑定自定义icon -->
             <i :class="item.icon"></i>
@@ -410,9 +413,22 @@ export default {
         },
       },
       dynamicTags: [],
+      activePath:"/index",//被激活的菜单地址
     }
   },
   methods: {
+    // 菜单点击事件
+    saveNavStatus(title,path){
+      const activeMenu={}
+      console.log(title);
+      activeMenu.title = title
+      activeMenu.path = path
+      //JSON.stringify 将对象转换成json
+      window.sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
+      this.dynamicTags.push(activeMenu);
+      // console.log(this.dynamicTags);
+      this.activePath = path //将点击的菜单path给需要激活状态的菜单activePath
+    },
   },
   // 页面加载完调用
   mounted() {

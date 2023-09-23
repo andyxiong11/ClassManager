@@ -13,12 +13,13 @@
     <el-container class="container">
       <!-- 侧边栏容器 -->
       <el-aside width="174px">
-        <!-- active-text-color激活菜单时的颜色 
+        <!--default-active	当前激活菜单的 index
+            active-text-color激活菜单时的颜色 
             router 在激活导航时以 index 作为 path 进行路由跳转
             transparent 透明色
         -->
         <el-menu
-          default-active="/index"
+          :default-active="activePath"
           background-color="transparent"
           text-color="#dfdede"
           active-text-color="#01D4F9"
@@ -130,6 +131,7 @@ export default {
         }
       ],
       dynamicTags: [],
+      activePath:"",//被激活的菜单地址
     }
   },
   methods: {
@@ -140,11 +142,12 @@ export default {
       activeMenu.title = title
       activeMenu.path = path
       //JSON.stringify 将对象转换成json
-      sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
+      window.sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
       //TODO待修复 如果数组中不存在该元素再插入
       //TODO待修复 如果在标签页，则该标签高亮
       this.dynamicTags.push(activeMenu);
       // console.log(this.dynamicTags);
+      this.activePath = path //将点击的菜单path给需要激活状态的菜单activePath
     },
     // 关闭tag标签
     handleClose(tag) {
@@ -155,6 +158,12 @@ export default {
       //第二、第三个参数分别为成功和失败的回调函数，不写会报错
       this.$router.push(path, ()=>{}, ()=>{})
     }
+  },
+  //组件挂载之前被调用
+  created(){
+    //JSON.parse 将json转换成对象
+    const activeMenu = JSON.parse(window.sessionStorage.getItem("activeMenu"));
+    this.activePath = activeMenu.path;
   },
   // 页面加载完调用
   mounted() {
