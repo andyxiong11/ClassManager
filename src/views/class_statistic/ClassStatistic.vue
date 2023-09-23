@@ -221,11 +221,13 @@
     name:"ClassStatistic",
     data(){
       return{
-        // 下拉框
+        // 筛选条件学校选项
         schoolSelectValue:"",
-        // 日期
+        // 下拉框老师选项
+        teacherSelectValue:"",
+        // 筛选条件日期
         dateTimeRangeValue:"",
-        //月份
+        // 筛选条件月份
         dataMounth:"",
         // 人次数据
         summaryList: [
