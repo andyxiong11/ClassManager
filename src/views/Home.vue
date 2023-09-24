@@ -71,7 +71,8 @@
             closable
             :disable-transitions="false"
             @click="goto(tag[1])"
-            @close="handleClose(tag[0])">
+            @close="handleClose(tag[0])"
+            style="cursor:pointer;">
             {{tag[0]}}
           </el-tag>
         </div>
