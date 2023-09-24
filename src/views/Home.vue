@@ -64,6 +64,7 @@
         <div class="navTab">
           <!-- closable是否可关闭
                disable-transitions	是否禁用渐变动画
+               effect 标签主题 激活的菜单路径 = 标签的路径
           -->
           <el-tag
             :key="tag[0]"
@@ -72,6 +73,7 @@
             :disable-transitions="false"
             @click="goto(tag[1])"
             @close="handleClose(tag[0])"
+            :effect="activePath === tag[1] ? 'dark' :'light'"
             style="cursor:pointer;">
             {{tag[0]}}
           </el-tag>
@@ -147,7 +149,6 @@ export default {
       //JSON.stringify 将对象转换成json
       window.sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
 
-      //TODO待修复 如果在标签页，则该标签高亮
       //this.dynamicTags.push(activeMenu);
       // console.log(this.dynamicTags);
       this.dynamicTags.set(activeMenu.title, activeMenu.path);
