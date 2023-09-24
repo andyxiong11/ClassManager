@@ -319,6 +319,7 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   export default {
     name:"AllDocument",
     data() {
@@ -461,6 +462,16 @@
           });          
         });
       }
+    },
+    computed: {
+      // TODO 为什么要使用mapState
+      ...mapState([
+        "schoolOptions",
+        "classroomOptions",
+        "teacherOptions",
+        "gradeOptions",
+        "subjectOptions",
+      ]),
     },
   }
 </script>

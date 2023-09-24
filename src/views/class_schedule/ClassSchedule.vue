@@ -504,10 +504,6 @@
       return{
         // 学校数据
         schoolSelectValue:"",
-        // 学校选项数据
-        schoolOptions:"",
-        // 教室数据
-        classroomOptions:"",
         // 教室选项数据
         classroomSelectValue:"",
         // 老师数据
@@ -727,6 +723,7 @@
       },
     },
     computed: {
+      // TODO 为什么要使用mapState
       ...mapState([
         "schoolOptions",
         "classroomOptions",

@@ -154,6 +154,7 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   export default {
     name:"LiveClasses",
     data(){
@@ -171,6 +172,16 @@
       gotoLiveClassesDetail(){
         this.$router.push('/home/live-classes-detail')
       }
+    },
+    computed: {
+      // TODO 为什么要使用mapState
+      ...mapState([
+        "schoolOptions",
+        "classroomOptions",
+        "teacherOptions",
+        "gradeOptions",
+        "subjectOptions",
+      ]),
     },
   }
 </script>
