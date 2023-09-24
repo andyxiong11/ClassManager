@@ -331,7 +331,7 @@
           <div style="margin-bottom: 20px;">
             <el-select v-model="value" placeholder="请选择周几">
               <el-option
-                v-for="item in options"
+                v-for="item in weekOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -340,7 +340,7 @@
             <span style="margin: auto 20px">-</span>
             <el-select v-model="value" placeholder="请选择第几节课">
               <el-option
-                v-for="item in options"
+                v-for="item in classNumOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -650,6 +650,9 @@
             nums: [""],
           },
         },
+        // 新增课程时间选择
+        weekOptions: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+        classNumOptions: [1, 2, 3, 4, 5, 6, 7, 8],
         // 新增课程信息规则数据
         classFormRules:"",
         // 新增课程主讲信息数据
