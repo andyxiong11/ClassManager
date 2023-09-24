@@ -19,6 +19,5 @@ export default new Vuex.Store({
     gradeOptions: [],
     // 学科
     subjectOptions: [],
-  },
-  mutations:{}
+  }
 })

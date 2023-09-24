@@ -15,6 +15,7 @@ npm run serve
 - 需要安装element ui   npm i element-ui -S
 - 需要安装echarts npm install echarts --save
 - 需要安装vuescroll npm i vuescroll -S
+- 需要安装vuex npm i vuex@3
 ### Compiles and minifies for production
 ```
 npm run build
