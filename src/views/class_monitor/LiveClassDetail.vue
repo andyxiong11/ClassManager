@@ -19,10 +19,9 @@
             <i class="el-icon-microphone"></i>
           </div>
           <div class="btn-box">
-            <!-- TODO怎么在不影响按钮点击变色的情况下实现按钮透明度样式 -->
-            <el-button size="small" autofocus>看老师</el-button>
-            <el-button style="background-color: #012f4f;opacity: 0.6; border-radius: 15px;" size="small">看学生</el-button>
-            <el-button style="background-color: #012f4f;opacity: 0.6; border-radius: 15px;" size="small">看视频</el-button>
+            <el-button class="btn" size="small" autofocus>看老师</el-button>
+            <el-button class="btn" size="small">看学生</el-button>
+            <el-button class="btn" size="small">看视频</el-button>
           </div>
         </div>
       </div>
@@ -81,4 +80,14 @@
     font-size: 14px;
     margin-left: 20px;
   }
+  .btn{
+    background-color: #012f4f;
+    opacity: 0.6; 
+  }
+
+  .btn:focus {
+  background-color: #409eff;
+  color: #fffefe;
+  opacity: 1;
+}
 </style>
