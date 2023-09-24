@@ -219,18 +219,26 @@
                 </el-tag>
               </div>
             </el-popover>
-            <!-- TODO 鼠标移上去才显示添加按钮为实现 -->
-            <!-- <div v-else 
-              @mouseover="btnShowFlag = true"
-              @mouseout="btnShowFlag = false">
-              <el-button v-show="btnShowFlag">
-                <i class="el-icon-circle-plus-outline"></i>
-              </el-button>
-            </div> -->
             <!-- v-else -->
             <!-- circle el-button圆角 -->
-            <el-button v-else icon="el-icon-plus" circle @click="addDialogVisible = true">
-            </el-button>
+            <!-- <el-button v-else icon="el-icon-plus" circle @click="addDialogVisible = true">
+            </el-button> -->
+
+            <!-- <div
+              v-else
+              @mouseover="btnShowFlag = true"
+              @mouseout="btnShowFlag = false"
+              @click="addDialogVisible = true"
+            >
+              <el-button
+                v-show="btnShowFlag"
+                icon="el-icon-plus"
+                circle
+                size="mini"
+              ></el-button>
+            </div> -->
+
+            <add-class-btn v-else @isShowAddDialog="addDialogVisible = true"></add-class-btn>
           </div>
         </div>
       </div>
@@ -498,7 +506,9 @@
 
 <script>
   import { mapState } from "vuex";
+  import AddClassBtn from "./AddClassBtn.vue"
   export default {
+  components: { AddClassBtn },
     name:"ClassSchedule",
     data(){
       return{
@@ -508,6 +518,8 @@
         classroomSelectValue:"",
         // 老师数据
         teacherSelectValue:"",
+        // 控制 添加课程按钮展示
+        btnShowFlag:false,
         // 控制对话框打开关闭
         holidayPlanDialogVisible:false,
         // 假期排课对话框必选项校验
