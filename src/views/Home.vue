@@ -65,6 +65,7 @@
           <!-- closable是否可关闭
                disable-transitions	是否禁用渐变动画
                effect 标签主题 激活的菜单路径 = 标签的路径
+               TODO 待解决 从index页面切换到home子组件，按钮不高亮
           -->
           <el-tag
             :key="tag[0]"
@@ -157,6 +158,9 @@ export default {
       // console.log(this.dynamicTagList);
 
       this.activePath = path //将点击的菜单path给需要激活状态的菜单activePath
+
+      console.log("点击后",this.activePath);
+      console.log("点击后",this.dynamicTagList);
     },
     // 关闭tag标签
     handleClose(tag) {
@@ -182,6 +186,9 @@ export default {
     // 便于从index组件切回home组件后展示对应组件的标签
     this.dynamicTags.set(activeMenu.title, activeMenu);
     this.dynamicTagList = Array.from(this.dynamicTags);
+
+    console.log("挂载前",this.activePath);
+    console.log("挂载前",this.dynamicTagList);
   },
   // 页面加载完调用
   mounted() {
