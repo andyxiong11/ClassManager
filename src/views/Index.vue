@@ -420,7 +420,7 @@ export default {
     // 菜单点击事件
     saveNavStatus(title,path){
       const activeMenu={}
-      console.log(title);
+      // console.log(title);
       activeMenu.title = title
       activeMenu.path = path
       //JSON.stringify 将对象转换成json
