@@ -161,6 +161,9 @@
       return{
         //控制视图切换
         gridActiveFlag:"true",
+        schoolSelectValue:"",// 学校选择内容
+        gradeSelectValue: "",//年级选择内容
+        subjectSelectValue: "",//学科选择内容
       }
     },
     methods: {
