@@ -319,17 +319,17 @@
           </div>
           <div style="margin-bottom: 20px;">
             <el-time-picker
-              v-model="value1"
+              v-model="classForm.classPlan.startTime"
               placeholder="选择时间">
             </el-time-picker>
             <span style="margin: auto 20px">-</span>
             <el-time-picker
-              v-model="value2"
+              v-model="classForm.classPlan.endTime"
               placeholder="选择时间">
             </el-time-picker>
           </div>
           <div style="margin-bottom: 20px;">
-            <el-select v-model="value" placeholder="请选择周几">
+            <el-select v-model="classForm.classPlan.weekdays[index]" placeholder="请选择周几">
               <el-option
                 v-for="item in weekOptions"
                 :key="item.value"
@@ -338,7 +338,7 @@
               </el-option>
             </el-select>
             <span style="margin: auto 20px">-</span>
-            <el-select v-model="value" placeholder="请选择第几节课">
+            <el-select v-model="classForm.classPlan.nums[index]" placeholder="请选择第几节课">
               <el-option
                 v-for="item in classNumOptions"
                 :key="item.value"
