@@ -116,7 +116,6 @@
           <div style="height: 270px;cursor: pointer;" @click="gotoLiveClassesDetail">
             <!-- TODO图片需要给高度和宽，否则容易溢出div -->
             <img style="width: 100%;height: 184px;" src="../../assets/class_img.png" alt="" />
-            <!-- TODO图片下方空隙未解决 -->
             <div 
               style="
                 height: 86px;
