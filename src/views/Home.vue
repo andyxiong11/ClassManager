@@ -66,13 +66,13 @@
                disable-transitions	是否禁用渐变动画
           -->
           <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
+            :key="tag[0]"
+            v-for="tag in dynamicTagList"
             closable
             :disable-transitions="false"
-            @click="goto(tag.path)"
-            @close="handleClose(tag)">
-            {{tag.title}}
+            @click="goto(tag[1])"
+            @close="handleClose(tag[0])">
+            {{tag[0]}}
           </el-tag>
         </div>
         <router-view></router-view>
@@ -130,7 +130,9 @@ export default {
           icon: 'el-icon-setting'
         }
       ],
-      dynamicTags: [],
+      // 标签
+      dynamicTags: new Map(),
+      dynamicTagList: [],
       activePath:"",//被激活的菜单地址
     }
   },
@@ -143,15 +145,24 @@ export default {
       activeMenu.path = path
       //JSON.stringify 将对象转换成json
       window.sessionStorage.setItem("activeMenu", JSON.stringify(activeMenu))
-      //TODO待修复 如果数组中不存在该元素再插入
+
       //TODO待修复 如果在标签页，则该标签高亮
-      this.dynamicTags.push(activeMenu);
+      //this.dynamicTags.push(activeMenu);
       // console.log(this.dynamicTags);
+      this.dynamicTags.set(activeMenu.title, activeMenu.path);
+      // console.log(this.dynamicTags);
+      this.dynamicTagList = Array.from(this.dynamicTags);
+      // console.log(this.dynamicTagList);
+
       this.activePath = path //将点击的菜单path给需要激活状态的菜单activePath
     },
     // 关闭tag标签
     handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      //this.dynamicTagList.splice(this.dynamicTagList.indexOf(tag), 1);
+      // 上面是官方写法
+
+      this.dynamicTags.delete(tag); //删除标签的类数组中的标签
+      this.dynamicTagList = Array.from(this.dynamicTags);//更新标签数组
     },
     // 标签跳转
     goto(path){
@@ -165,6 +176,10 @@ export default {
     //JSON.parse 将json转换成对象
     const activeMenu = JSON.parse(window.sessionStorage.getItem("activeMenu"));
     this.activePath = activeMenu.path;
+
+    // 便于从index组件切回home组件后展示对应组件的标签
+    this.dynamicTags.set(activeMenu.title, activeMenu);
+    this.dynamicTagList = Array.from(this.dynamicTags);
   },
   // 页面加载完调用
   mounted() {
